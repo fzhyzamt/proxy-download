@@ -1,5 +1,14 @@
 ## Proxy Download
 
+### Usage
+
+构建执行文件
+```shell
+git clone git@github.com:fzhyzamt/proxy-download.git
+cd proxy-download/scripts
+./build_target.sh
+```
+
 如果直接访问端口速度很快，但通过nginx后非常慢，尝试关闭nginx的buffer。
 ```
 proxy_buffering off;
