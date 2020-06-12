@@ -15,11 +15,11 @@ var (
 	bufferSize       int
 	indexHtml        string
 	excludeHeaderKey = map[string]bool{
-		"Date":              true,
-		"Server":            true,
-		"Content-Encoding":  true,
-		"Connection":        true,
-		"Transfer-Encoding": true,
+		"Date":   true,
+		"Server": true,
+		//"Content-Encoding":  true,
+		//"Connection":        true,
+		//"Transfer-Encoding": true,
 	}
 )
 
@@ -73,7 +73,19 @@ func (p *Proxy) getHrefFileName() string {
 func (p *Proxy) downloadAndReWrite() {
 	log.Printf("start download %s", p.getHref())
 
-	resp, err := http.Get(p.getHref())
+	client := http.DefaultClient
+	request, err := http.NewRequest("GET", p.getHref(), nil)
+	if err != nil {
+		p.w.WriteHeader(500)
+		_, _ = fmt.Fprintf(p.w, "create request fail\n%s", err.Error())
+		return
+	}
+
+	for key, values := range p.r.Header {
+		request.Header.Add(key, values[0])
+	}
+
+	resp, err := client.Do(request)
 	if resp != nil {
 		defer func() {
 			if err := resp.Body.Close(); err != nil {
