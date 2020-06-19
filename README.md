@@ -1,5 +1,7 @@
 ## Proxy Download
 
+![Bazel](https://github.com/fzhyzamt/proxy-download/workflows/Bazel/badge.svg?branch=master)
+
 ### Usage
 
 构建执行文件
