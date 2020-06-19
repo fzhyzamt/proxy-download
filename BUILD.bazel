@@ -1,0 +1,40 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary")
+load("//:files.bzl", "move_target_file")
+
+
+go_binary(
+      name = 'linux-amd64',
+      embed = ["//src:main"],
+      goos = 'linux',
+      goarch = 'amd64',
+      out = 'linux-amd64',
+)
+
+go_binary(
+      name = 'linux-386',
+      embed = ["//src:main"],
+      goos = 'linux',
+      goarch = '386',
+      out = 'linux-386',
+)
+
+go_binary(
+      name = 'windows-amd64',
+      embed = ["//src:main"],
+      goos = 'windows',
+      goarch = 'amd64',
+      out = 'win-amd64.exe',
+)
+
+go_binary(
+      name = 'darwin-amd64',
+      embed = ["//src:main"],
+      goos = 'darwin',
+      goarch = 'amd64',
+      out = 'darwin-amd64',
+)
+
+move_target_file(
+    name = "move_file",
+    target_folder = ":linux-amd64",
+)

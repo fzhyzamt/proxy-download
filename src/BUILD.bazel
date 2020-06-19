@@ -1,0 +1,30 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "config_library",
+    srcs = glob(["config/*.go"]),
+    importpath = "proxy-download/src/config",
+    visibility = ["//visibility:private"],
+)
+go_library(
+    name = "proxy_library",
+    srcs = glob(["proxy/*.go"]),
+    importpath = "proxy-download/src/proxy",
+    deps = [":config_library"],
+    visibility = ["//visibility:private"],
+)
+go_library(
+    name = "transfer_library",
+    srcs = glob(["transfer/*.go"]),
+    importpath = "proxy-download/src/transfer",
+    deps = [":proxy_library"],
+    visibility = ["//visibility:private"],
+)
+
+go_library(
+    name = "main",
+    srcs = glob(["*.go"]),
+    importpath = "proxy-download/src",
+    deps = [":config_library", ":proxy_library", ":transfer_library"],
+    visibility = ["//visibility:public"],
+)
